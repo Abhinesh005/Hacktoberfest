@@ -1,4 +1,4 @@
-    /*  ********** fastcoder_ali ********* */
+/*  **** fastcoder_ali *** */
     #include <bits/stdc++.h>
     using namespace std;
     #define lli long long int
@@ -25,7 +25,14 @@
     			st.push(i);
     		}
     	}
-    	
+    	{
+    		stack<lli> st;
+    		for(lli i=0;i<n;i++){
+    			while(!st.empty()&&a[i]<=a[st.top()])st.pop();
+    			ll[i] = st.empty()?-1:st.top();
+    			st.push(i);
+    		}
+    	}
     	{
     		stack<lli> st;
     		for(lli i=n-1;i>=0;i--){
@@ -55,7 +62,14 @@
     					// cout<<"range: "<<max(ll[j],gl[i])+1<<' '<<min(lr[j],gr[i])-1<<'\n';
     				}
     			}
-    			
+    			if(id[x]<(lli)pos[x].size()){
+    				lli j = pos[x][id[x]];
+    				// cout<<"maxp: " <<i<<' '<<" minp: "<<j<<'\n';
+    				if(ll[j]<i&&gr[i]>j){
+    					// cout<<"range: "<<max({ll[j],gl[i],id[x]?pos[x][id[x]-1]:-1})+1<<' '<<min(gr[i],lr[j])-1<<'\n';
+    					ans += 1ll*(min(gr[i],lr[j])-j)*(i-max({ll[j],gl[i],id[x]?pos[x][id[x]-1]:-1}));
+    				}
+    			}
     		}
     		id[a[i]]++;
     	}
