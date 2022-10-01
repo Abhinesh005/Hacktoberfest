@@ -1,4 +1,4 @@
-    #include <bits/stdc++.h>
+#include <bits/stdc++.h>
      
     using namespace std;
      
@@ -11,7 +11,12 @@
     		t[i] += d;
     }
      
-    
+    int sum(int r) {
+    	int ans = 0;
+    	for (; r >= 0; r = (r & r + 1) - 1)
+    		ans += t[r];
+        return ans;
+    }
      
     signed main() {
     	ios::sync_with_stdio(false);
@@ -33,7 +38,15 @@
         dp[0][0] = 0;
      
      
-    
+        function<int(int, int, int)> inv = [&] (int mn, int mask, int x) {
+            int ans = 0;
+            for (int i = 0; i < k; i++)
+            	if ((mask & (1 << i)) && pos[x] < pos[mn + i + 1])
+            		ans++;
+     
+            ans += sum(N - 1) - sum(pos[x]);
+            return ans;
+        };
      
         for (int mn = 0; mn < n; mn++) {
         	for (int mask = 0; mask < (1 << min(k, n - mn - 1)); mask++) {
