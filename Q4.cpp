@@ -1,7 +1,11 @@
-    #include <bits/stdc++.h>
+#include <bits/stdc++.h>
      
     using ll=long long;
     using std::cin;
+    using std::cerr;
+    using std::cout;
+    using std::min;
+    using std::max;
      
     template<class T>
     void ckmx(T &A,T B){
@@ -21,6 +25,11 @@
     			++i;
     		db[j]=i;
     		sm+=db[j];
+    	}
+    	for(int i=n,j=0;i>=1;--i){
+    		while(j<m&&a[i]+b[j+1]<=x)
+    			++j;
+    		da[i]=j;
     	}
     	f1=f2=sm;
     	for(int i=n,j=m;i>=1;--i){
@@ -47,6 +56,9 @@
     	va=a[1],vb=b[1];
     	std::sort(a+1,a+n+1);
     	std::sort(b+1,b+m+1);
+    	int l=a[1]+b[1],r=va+vb;
+    	va=std::lower_bound(a+1,a+n+1,va)-a;
+    	vb=std::lower_bound(b+1,b+m+1,vb)-b;
     	while(l<r){
     		int mid=(l+r)>>1;
     		if(check(mid))
