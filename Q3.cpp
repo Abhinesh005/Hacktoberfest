@@ -1,4 +1,4 @@
-    #include<bits/stdc++.h>
+#include<bits/stdc++.h>
     #define ll long long
     #define ull unsigned long long
     #define ld long double
@@ -33,7 +33,15 @@
             }
             return d[t];
         };
-       
+        function<ll(int,ll)> dfs=[&](int x,ll f)
+        {
+            if(x==t)return f;
+            ll k,res=0;
+            for(int i=h[x],y;i&&f;h[x]=i,i=e[i].nxt)
+                if(e[i].w>0&&d[y=e[i].v]==d[x]+1)
+                k=dfs(y,min(f,e[i].w)),!k&&(d[y]=1e9),e[i].w-=k,e[i^1].w+=k,f-=k,res+=k;
+            return res;
+        };
         memcpy(tmp,h,sizeof h);
         while(bfs())res+=dfs(s,1e18),memcpy(h,tmp,sizeof h);
         return res;
@@ -53,6 +61,11 @@
     		a[x]++,a[y]++,ins(S,i+n,2),ins(i+n,x,2),ins(i+n,y,2);
     	}
     	for(int i=1;i<=n;i++)
+    		if(s[i])
+    		{
+    			ins(i,T,a[i]),sum+=a[i];
+    			if(a[i]<0)return puts("NO"),0;
+    		}
     	if(m*2<sum)return puts("NO"),0;
     	ins(E,T,m*2-sum);
     	int tmp=dinic(S,T);
